@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker - Login</title>
+    <!-- DaisyUI & Tailwind CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Card Container -->
+    <div class="card w-full max-w-sm bg-base-100 shadow-xl border border-gray-100 p-8">
+
+        <!-- Header Logo -->
+        <div class="flex flex-col items-center mb-6">
+            <div class="w-20 h-20 mb-4">
+                <img src="./assets/github-logo.png" alt="GitHub Logo" class="w-full h-full object-contain">
+            </div>
+            <h1 class="text-2xl font-bold text-slate-800">GitHub Issues Tracker</h1>
+            <p class="text-slate-400 text-sm">Sign in to manage your issues</p>
+        </div>
+
+        <!-- Form -->
+        <form id="login-form">
+            <!-- Username  -->
+            <div class="form-control w-full mb-4">
+                <label class="label pb-1">
+                    <span class="label-text font-semibold text-slate-600">Username</span>
+                </label>
+                <input type="text" id="username" placeholder="Enter username" class="input input-bordered w-full focus:outline-primary" required />
+                <label class="label py-1">
+                    <span class="label-text-alt text-indigo-600 font-medium italic">Default: admin</span>
+                </label>
+            </div>
+
+            <!-- Password  -->
+            <div class="form-control w-full mb-6">
+                <label class="label pb-1">
+                    <span class="label-text font-semibold text-slate-600">Password</span>
+                </label>
+                <input type="password" id="password" placeholder="Enter Password" class="input input-bordered w-full focus:outline-primary" required />
+                <label class="label py-1">
+                    <span class="label-text-alt text-indigo-600 font-medium italic">Default: admin123</span>
+                </label>
+            </div>
+
+            <!-- Sign In Button -->
+            <button type="submit" class="btn btn-primary w-full bg-indigo-600 hover:bg-indigo-700 text-white border-none">Sign In</button>
+        </form>
+
+        <div class="divider text-xs text-slate-400 my-6">OR</div>
+
+        <!-- Info -->
+        <div class="bg-slate-50 rounded-lg p-4 text-center border border-slate-100">
+            <p class="text-xs text-slate-400 mb-2">Demo Credentials:</p>
+            <p class="text-sm text-slate-700">
+                <span class="font-bold">Username:</span> admin <br>
+                <span class="font-bold">Password:</span> admin123
+            </p>
+        </div> 
+    </div>
+
+    
+    <script src="./script/login.js"></script>
+</body>
+</html>
