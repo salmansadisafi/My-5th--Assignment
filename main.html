@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>GitHub Issues Tracker</title>
+</head>
+
+<body class="bg-gray-50">
+
+    <nav class="flex items-center justify-between px-12 py-4 bg-white border-b border-slate-200">
+        <div class="flex items-center gap-2 font-bold text-xl">
+            <img src="./assets/github-logo.png" width="40">
+            <span>GitHub Issues Tracker</span>
+        </div>
+
+        <div class="flex gap-4">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400"></i>
+                <input type="text" id="search-input" placeholder="Search issues..." class="pl-10 pr-4 py-2 border border-slate-200 rounded-lg w-64 focus:outline-none">
+            </div>
+            <button id="search-btn" class="bg-indigo-600 text-white px-6 py-2 rounded-lg">Search</button>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto mt-10 px-8">
+        <div class="bg-white p-2 rounded-xl border border-slate-200 inline-flex gap-2">
+            <button id="tab-all" class="px-8 py-2 bg-indigo-600 text-white rounded-lg font-medium">All</button>
+            <button id="tab-open" class="px-8 py-2 text-slate-500 rounded-lg font-medium">Open</button>
+            <button id="tab-closed" class="px-8 py-2 text-slate-500 rounded-lg font-medium">Closed</button>
+        </div>
+    </div>
+
+    
+    
+    <script src="./script/main.js"></script>
+</body>
+</html>
