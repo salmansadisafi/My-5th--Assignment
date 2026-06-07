@@ -67,7 +67,7 @@ function displayIssues(issues) {
             priorityColor = "bg-amber-50 text-amber-500";
         }
 
-         // লেবেল এবং আইকন সেট করার নিয়ম
+         // label icon-
         let labelText = "BUG";
         if (issue.label) {
             labelText = issue.label.toUpperCase();
@@ -81,7 +81,7 @@ function displayIssues(issues) {
             labelIcon = "<i class='fa-solid fa-wand-magic-sparkles text-[10px]'></i>";
         }
 
-        // কার্ড তৈরি
+        // making card
         const card = document.createElement("div");
         card.className = "bg-white rounded-xl border border-slate-200 border-t-4 " + borderColor + " shadow-sm p-5 flex flex-col justify-between overflow-hidden cursor-pointer hover:shadow-md transition";
         
@@ -108,4 +108,101 @@ function displayIssues(issues) {
         issuesContainer.appendChild(card);
     });
 }
+
+// 4th modal function
+function openModal(issue) {
+    let statusText = "Opened";
+    let statusBg = "bg-emerald-100 text-emerald-600";
+    
+    if (issue.status && issue.status.toLowerCase() === "closed") {
+        statusText = "Closed";
+        statusBg = "bg-purple-100 text-purple-600";
+    }
+
+    modalBody.innerHTML = `
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">
+                ${issue.title || "No Title Provided"}
+            </h2>
+
+            <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500">
+                <span class="px-3 py-1 rounded-full ${statusBg}">
+                    ${statusText}
+                </span>
+
+                <span>
+                    • Opened by
+                    <span class="font-bold text-slate-700">
+                        ${issue.author || "Anonymous"}
+                    </span>
+                </span>
+
+                <span>
+                    • ${issue.createdAt
+                        ? new Date(issue.createdAt).toLocaleDateString("en-GB")
+                        : "22/02/2026"}
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-100 mb-6">
+            <p class="text-sm text-slate-600 leading-relaxed">
+                ${issue.description || "No description available for this issue."}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 border-t border-slate-100 pt-6">
+            <div>
+                <p class="text-[10px] text-slate-400 mb-1 uppercase font-bold tracking-wider">
+                    Label:
+                </p>
+                <p class="text-sm font-bold text-slate-800">
+                    ${(issue.label || "BUG").toUpperCase()}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-[10px] text-slate-400 mb-1 uppercase font-bold tracking-wider">
+                    Priority:
+                </p>
+                <p class="text-sm font-bold text-slate-800">
+                    ${(issue.priority || "LOW").toUpperCase()}
+                </p>
+            </div>
+        </div>
+    `;
+
+    issueModal.classList.remove("hidden");
+    issueModal.classList.add("flex");
+}
+
+
+// modal close-
+closeModalBtn.addEventListener("click", function () {
+    issueModal.classList.add("hidden");
+    issueModal.classList.remove("flex");
+});
+
+// 5th tab filtering function-
+function switchTab(activeTabButton, statusType) {
+    tabAll.className = "px-8 py-2 text-slate-500 rounded-lg font-medium";
+    tabOpen.className = "px-8 py-2 text-slate-500 rounded-lg font-medium";
+    tabClosed.className = "px-8 py-2 text-slate-500 rounded-lg font-medium";
+    
+    activeTabButton.className = "px-8 py-2 bg-indigo-600 text-white rounded-lg font-medium";
+
+    if (statusType === "all") {
+        displayIssues(allIssues);
+    } else {
+        const filtered = allIssues.filter(function (issue) {
+            return issue.status && issue.status.toLowerCase() === statusType;
+        });
+        displayIssues(filtered);
+    }
+}
+
+tabAll.addEventListener("click", function () { switchTab(tabAll, "all"); });
+tabOpen.addEventListener("click", function () { switchTab(tabOpen, "open"); });
+tabClosed.addEventListener("click", function () { switchTab(tabClosed, "closed"); });
+
 
