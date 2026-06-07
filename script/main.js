@@ -37,4 +37,33 @@ function loadIssues() {
         });
 }
 
+// 3rd making card function-
+function displayIssues(issues) {
+    issuesContainer.innerHTML = "";
+    issueCountSpan.innerText = issues.length;
+
+    if (!issues || issues.length === 0) {
+        issuesContainer.innerHTML = "<p class='text-slate-500 col-span-4 text-center py-10'>No issues found!</p>";
+        return;
+    }
+
+    issues.forEach(function (issue) {
+        
+        let borderColor = "border-t-emerald-500";
+        if (issue.status && issue.status.toLowerCase() === "closed") {
+            borderColor = "border-t-purple-500";
+        }
+
+        
+        let priority = "LOW";
+        if (issue.priority) {
+            priority = issue.priority.toUpperCase();
+        }
+        
+        let priorityColor = "bg-slate-100 text-slate-500";
+        if (priority === "HIGH") {
+            priorityColor = "bg-red-50 text-red-500";
+        } else if (priority === "MEDIUM") {
+            priorityColor = "bg-amber-50 text-amber-500";
+        }
 
