@@ -82,24 +82,49 @@ function displayIssues(issues) {
         }
 
         // making card
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-xl border border-slate-200 border-t-4 " + borderColor + " shadow-sm p-5 flex flex-col justify-between overflow-hidden cursor-pointer hover:shadow-md transition";
-        
-        card.innerHTML = "<div>" +
-            "<div class='flex justify-between items-center mb-4'>" +
-                "<div class='text-xs font-bold text-slate-400'># " + (issue.id || '1') + "</div>" +
-                "<span class='text-[11px] font-bold px-3 py-0.5 rounded-full tracking-wide " + priorityColor + "'>" + priority + "</span>" +
-            "</div>" +
-            "<h3 class='font-bold text-[15px] text-slate-800 line-clamp-2 mb-2 leading-snug'>" + (issue.title || 'No Title') + "</h3>" +
-            "<p class='text-slate-400 text-xs line-clamp-2 mb-4 leading-relaxed'>" + (issue.description || 'No Description') + "</p>" +
-            "<div class='flex flex-wrap gap-2 mb-4'>" +
-                "<span class='inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full border " + labelStyle + "'>" + labelIcon + " " + labelText + "</span>" +
-            "</div>" +
-        "</div>" +
-        "<div class='border-t border-slate-100 pt-3 text-[11px] text-slate-400 font-medium'>" +
-            "<div class='text-slate-400 mb-0.5'>By <span class=" + "'text-slate-500'" + ">" + (issue.author || 'unknown') + "</span></div>" +
-            "<div>" + (issue.createdAt ? new Date(issue.createdAt).toLocaleDateString() : '1/15/2024') + "</div>" +
-        "</div>";
+const card = document.createElement("div");
+
+card.className = `bg-white rounded-xl border border-slate-200 border-t-4 ${borderColor} shadow-sm p-5 flex flex-col justify-between overflow-hidden cursor-pointer hover:shadow-md transition`;
+
+card.innerHTML = `
+    <div>
+        <div class="flex justify-between items-center mb-4">
+            <div class="text-xs font-bold text-slate-400">
+                # ${issue.id || "1"}
+            </div>
+
+            <span class="text-[11px] font-bold px-3 py-0.5 rounded-full tracking-wide ${priorityColor}">
+                ${priority}
+            </span>
+        </div>
+
+        <h3 class="font-bold text-[15px] text-slate-800 line-clamp-2 mb-2 leading-snug">
+            ${issue.title || "No Title"}
+        </h3>
+
+        <p class="text-slate-400 text-xs line-clamp-2 mb-4 leading-relaxed">
+            ${issue.description || "No Description"}
+        </p>
+
+        <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-wide px-2 py-0.5 rounded-full border ${labelStyle}">
+                ${labelIcon} ${labelText}
+            </span>
+        </div>
+    </div>
+
+    <div class="border-t border-slate-100 pt-3 text-[11px] text-slate-400 font-medium">
+        <div class="text-slate-400 mb-0.5">
+            By <span class="text-slate-500">${issue.author || "unknown"}</span>
+        </div>
+
+        <div>
+            ${issue.createdAt
+                ? new Date(issue.createdAt).toLocaleDateString()
+                : "1/15/2024"}
+        </div>
+    </div>
+`;
 
         card.addEventListener("click", function () {
             openModal(issue);
@@ -205,4 +230,31 @@ tabAll.addEventListener("click", function () { switchTab(tabAll, "all"); });
 tabOpen.addEventListener("click", function () { switchTab(tabOpen, "open"); });
 tabClosed.addEventListener("click", function () { switchTab(tabClosed, "closed"); });
 
+// 6th serch function
+searchBtn.addEventListener("click", function () {
+    const searchText = searchInput.value.trim();
+    if (searchText === "") {
+        displayIssues(allIssues);
+        return;
+    }
 
+    loader.classList.remove("hidden");
+    issuesContainer.innerHTML = "";
+
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`)
+        .then(function (res) { 
+            return res.json(); 
+        })
+        .then(function (searchResult) {
+            const searchData = searchResult.data || searchResult;
+displayIssues(searchData);
+            loader.classList.add("hidden");
+        })
+        .catch(function (err) {
+            console.error(err);
+            loader.classList.add("hidden");
+        });
+});
+
+// data load call-
+loadIssues();
